@@ -30,9 +30,11 @@ export default function UploadPhoto() {
         return body;
       });
       router.refresh();
-      setFileList([]);
-      message.success("Photo uploaded successfully");
-      setIsUpLoading(false);
+      setTimeout(() => {
+        setFileList([]);
+        message.success("Photo uploaded successfully");
+        setIsUpLoading(false);
+      }, 1000);
     } catch (error) {
       message.error((error as Error).message);
       setIsUpLoading(false);
