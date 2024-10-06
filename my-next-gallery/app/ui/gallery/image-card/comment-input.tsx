@@ -34,7 +34,7 @@ export default function CommentInput({ id }: CommentInputProps) {
         message.success("Comment added successfully");
         setComment("");
         setIsLoading(false);
-      }, 1500);
+      }, 2000);
     } catch (error) {
       message.error((error as Error).message);
       setIsLoading(false);
