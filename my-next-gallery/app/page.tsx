@@ -1,9 +1,14 @@
-import { Button } from "antd";
+import Upload from "./ui/upload";
+import Gallery from "./ui/gallery";
 
 export default function Home() {
   return (
-    <div>
-      <Button type="primary">Home</Button>
-    </div>
+    <>
+      <h1 className="text-2xl font-bold mb-4">
+        Welcome to the Photo Upload App
+      </h1>
+      <Upload />
+      <Gallery />
+    </>
   );
 }
