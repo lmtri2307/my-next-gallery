@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, UploadFile } from "antd";
+import { Button, message, UploadFile } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import Dragger from "antd/es/upload/Dragger";
@@ -18,12 +18,20 @@ export default function UploadPhoto() {
     if (!fileList[0] || !fileList[0].originFileObj) return;
     const formData = new FormData();
     formData.append("image", fileList[0].originFileObj);
-    await fetch("/api/photos", {
-      method: "POST",
-      body: formData,
-    });
-    setFileList([]);
-    router.refresh();
+    try {
+      await fetch("/api/photos", {
+        method: "POST",
+        body: formData,
+      }).then(async (res) => {
+        const body = await res.json();
+        if (!res.ok) throw new Error(body.error);
+        return body;
+      });
+      setFileList([]);
+      router.refresh();
+    } catch (error) {
+      message.error((error as Error).message);
+    }
   };
 
   const handleCancel = () => {

@@ -1,4 +1,5 @@
 "use client";
+import { message } from "antd";
 import Search from "antd/es/input/Search";
 import { useRouter } from "next/navigation";
 
@@ -10,16 +11,24 @@ export default function CommentInput({ id }: CommentInputProps) {
   const router = useRouter();
 
   const handleAddComment = async (comment: string) => {
-    await fetch(`/api/photos/${id}/comments`, {
-      method: "POST",
-      body: JSON.stringify({
-        comment,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    router.refresh();
+    try {
+      await fetch(`/api/photos/${id}/comments`, {
+        method: "POST",
+        body: JSON.stringify({
+          comment,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(async (res) => {
+        const body = await res.json();
+        if (!res.ok) throw new Error(body.error);
+        return body;
+      });
+      router.refresh();
+    } catch (error) {
+      message.error((error as Error).message);
+    }
   };
   return (
     <Search
