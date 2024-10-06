@@ -4,17 +4,26 @@ import { Button, UploadFile } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import Dragger from "antd/es/upload/Dragger";
+import { useRouter } from "next/navigation";
 
 export default function UploadPhoto() {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const router = useRouter();
 
   const handleChange = ({ file }: { file: UploadFile }) => {
     setFileList([file]);
   };
 
-  const handleUpload = () => {
-    alert("Upload successful!");
+  const handleUpload = async () => {
+    if (!fileList[0] || !fileList[0].originFileObj) return;
+    const formData = new FormData();
+    formData.append("image", fileList[0].originFileObj);
+    await fetch("/api/photos", {
+      method: "POST",
+      body: formData,
+    });
     setFileList([]);
+    router.refresh();
   };
 
   const handleCancel = () => {

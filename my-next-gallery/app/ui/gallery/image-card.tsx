@@ -28,7 +28,7 @@ export default function ImageCard({ id, url, comments }: ImageCardProps) {
         </Title>
       </div>
       <CommentList comments={comments} />
-      <CommentInput />
+      <CommentInput id={id} />
     </Card>
   );
 }

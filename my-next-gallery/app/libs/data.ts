@@ -32,3 +32,23 @@ export const fetchPhotos = async () => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
   return fakePhotos;
 };
+
+export const addComment = async ({
+  photoId,
+  comment,
+}: {
+  photoId: number;
+  comment: string;
+}) => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const photo = fakePhotos.find((p) => p.id === photoId);
+  if (!photo) return;
+  photo.comments.push(comment);
+};
+
+export const addPhoto = async (url: string) => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const newPhoto = { id: fakePhotos.length + 1, url, comments: [] };
+  fakePhotos.push(newPhoto);
+  return newPhoto;
+};
