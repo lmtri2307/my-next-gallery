@@ -29,10 +29,12 @@ export default function UploadPhoto() {
         if (!res.ok) throw new Error(body.error);
         return body;
       });
-      setFileList([]);
-      message.success("Photo uploaded successfully");
-      setIsUpLoading(false);
       router.refresh();
+      setTimeout(() => {
+        setFileList([]);
+        message.success("Photo uploaded successfully");
+        setIsUpLoading(false);
+      }, 1000);
     } catch (error) {
       message.error((error as Error).message);
       setIsUpLoading(false);
@@ -76,6 +78,7 @@ export default function UploadPhoto() {
             Upload
           </Button>
           <Button
+            disabled={isUpLoading}
             type="default"
             onClick={handleCancel}
             className="bg-gray-200 hover:bg-gray-300"

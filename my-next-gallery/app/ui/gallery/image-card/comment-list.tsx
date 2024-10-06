@@ -1,7 +1,7 @@
 import { List } from "antd";
 import Item from "antd/es/list/Item";
 import React from "react";
-import EmptyComments from "./empty-comments";
+import EmptyComments from "../empty-comments";
 
 interface CommentListProps {
   comments: string[];

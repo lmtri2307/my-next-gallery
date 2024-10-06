@@ -29,10 +29,12 @@ export default function CommentInput({ id }: CommentInputProps) {
         if (!res.ok) throw new Error(body.error);
         return body;
       });
-      message.success("Comment added successfully");
-      setComment("");
-      setIsLoading(false);
       router.refresh();
+      setTimeout(() => {
+        message.success("Comment added successfully");
+        setComment("");
+        setIsLoading(false);
+      }, 1500);
     } catch (error) {
       message.error((error as Error).message);
       setIsLoading(false);
