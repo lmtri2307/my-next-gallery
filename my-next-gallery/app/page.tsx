@@ -1,4 +1,4 @@
-import Upload from "./ui/upload";
+import UploadPhoto from "./ui/upload-photo";
 import Gallery from "./ui/gallery";
 
 export default function Home() {
@@ -7,7 +7,7 @@ export default function Home() {
       <h1 className="text-2xl font-bold mb-4">
         Welcome to the Photo Upload App
       </h1>
-      <Upload />
+      <UploadPhoto />
       <Gallery />
     </>
   );
