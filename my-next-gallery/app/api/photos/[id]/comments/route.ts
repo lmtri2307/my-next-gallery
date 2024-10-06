@@ -1,6 +1,6 @@
 "use server";
 
-import { addComment } from "@/app/libs/data";
+import { PhotoService } from "@/app/libs/photo.service";
 import { revalidateTag } from "next/cache";
 
 export const POST = async (
@@ -9,7 +9,7 @@ export const POST = async (
 ) => {
   const photoId = parseInt(id);
   const { comment } = await req.json();
-  await addComment({ photoId, comment });
+  await PhotoService.addComment(photoId, comment);
   revalidateTag("photos");
   return Response.json({ success: true });
 };
