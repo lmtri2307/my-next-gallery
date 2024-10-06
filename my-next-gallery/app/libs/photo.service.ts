@@ -36,7 +36,26 @@ const getAllPhotos = async (): Promise<Photo[]> => {
 };
 
 const uploadToStorage = async (file: File): Promise<string> => {
-  return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6EuNkDpNk-b8P8UhLV8mdf2UOVGDMj2IKdg&s";
+  try {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const response = await fetch("https://api.imgur.com/3/upload", {
+      method: "POST",
+      headers: {
+        Authorization: `Client-ID ${process.env.IMGUR_CLIENT_ID}`,
+      },
+      body: formData,
+    }).then((res) => res.json());
+    if (!response.success) {
+      throw new Error(response.data.error);
+    }
+    const imgurUrl = response.data.link;
+    return imgurUrl;
+  } catch (error) {
+    console.error("Error uploading image to Imgur:", error);
+    throw new Error("Failed to upload image");
+  }
 };
 
 const createPhoto = async (file: File): Promise<Photo> => {
