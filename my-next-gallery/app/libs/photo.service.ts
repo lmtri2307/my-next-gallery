@@ -1,4 +1,4 @@
-import { revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import prisma from "./prisma";
 
 export type Photo = {
@@ -67,7 +67,7 @@ const createPhoto = async (file: File): Promise<Photo> => {
     },
     include: { comments: true },
   });
-  revalidateTag("photos");
+  revalidatePath("/");
   return mapper.toPhoto(newPhoto);
 };
 
@@ -78,7 +78,7 @@ const addComment = async (photoId: number, text: string): Promise<void> => {
       text,
     },
   });
-  revalidateTag("photos");
+  revalidatePath("/");
 };
 
 export const PhotoService = {
