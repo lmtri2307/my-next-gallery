@@ -7,6 +7,7 @@ import Dragger from "antd/es/upload/Dragger";
 import { useRouter } from "next/navigation";
 
 export default function UploadPhoto() {
+  const [isUpLoading, setIsUpLoading] = useState(false);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const router = useRouter();
 
@@ -19,6 +20,7 @@ export default function UploadPhoto() {
     const formData = new FormData();
     formData.append("image", fileList[0].originFileObj);
     try {
+      setIsUpLoading(true);
       await fetch("/api/photos", {
         method: "POST",
         body: formData,
@@ -29,9 +31,11 @@ export default function UploadPhoto() {
       });
       setFileList([]);
       message.success("Photo uploaded successfully");
+      setIsUpLoading(false);
       router.refresh();
     } catch (error) {
       message.error((error as Error).message);
+      setIsUpLoading(false);
     }
   };
 
@@ -64,6 +68,7 @@ export default function UploadPhoto() {
       {fileList.length > 0 && (
         <div className="mt-4 flex space-x-4">
           <Button
+            loading={isUpLoading}
             type="primary"
             onClick={handleUpload}
             className="bg-blue-500 hover:bg-blue-600"

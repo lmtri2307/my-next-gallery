@@ -1,7 +1,4 @@
-"use server";
-
 import { PhotoService } from "@/app/libs/photo.service";
-import { revalidateTag } from "next/cache";
 
 export const POST = async (
   req: Request,
@@ -13,11 +10,10 @@ export const POST = async (
   }
 
   const { comment } = await req.json();
-  if (typeof comment !== "string") {
+  if (typeof comment !== "string" || comment.length === 0) {
     return Response.json({ error: "Invalid comment" }, { status: 400 });
   }
 
   await PhotoService.addComment(photoId, comment);
-  revalidateTag("photos");
   return Response.json({ success: true });
 };

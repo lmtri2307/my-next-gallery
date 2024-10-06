@@ -1,6 +1,3 @@
-"use server";
-
-import { revalidateTag } from "next/cache";
 import { PhotoService } from "@/app/libs/photo.service";
 
 export const GET = async () => {
@@ -20,7 +17,6 @@ export const POST = async (req: Request) => {
 
   try {
     const newPhoto = await PhotoService.createPhoto(file as File);
-    revalidateTag("photos");
     return Response.json({ photo: newPhoto });
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
