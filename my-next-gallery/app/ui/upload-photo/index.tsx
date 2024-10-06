@@ -28,6 +28,7 @@ export default function UploadPhoto() {
         return body;
       });
       setFileList([]);
+      message.success("Photo uploaded successfully");
       router.refresh();
     } catch (error) {
       message.error((error as Error).message);

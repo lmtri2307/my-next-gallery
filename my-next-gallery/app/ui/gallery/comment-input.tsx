@@ -25,6 +25,7 @@ export default function CommentInput({ id }: CommentInputProps) {
         if (!res.ok) throw new Error(body.error);
         return body;
       });
+      message.success("Comment added successfully");
       router.refresh();
     } catch (error) {
       message.error((error as Error).message);
