@@ -1,17 +1,9 @@
 import React from "react";
 import ImageCard from "./image-card";
-import { Photo } from "@/app/libs/photo.service";
+import { Photo, PhotoService } from "@/app/libs/photo.service";
 
 const fetchPhotos = async (): Promise<Photo[]> => {
-  const { photos } = await fetch(
-    `${process.env.NEXT_PUBLIC_DOMAIN}/api/photos`,
-    {
-      next: {
-        tags: ["photos"],
-      },
-    },
-  ).then((res) => res.json());
-  return photos as Photo[];
+  return await PhotoService.getAllPhotos();
 };
 
 export default async function Gallery() {
