@@ -1,8 +1,9 @@
 "use client";
+import { useNotifySuccess } from "@/hooks/useNotifySuccess";
 import { message } from "antd";
 import Search from "antd/es/input/Search";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { startTransition, useState } from "react";
 
 interface CommentInputProps {
   id: number;
@@ -12,6 +13,7 @@ export default function CommentInput({ id }: CommentInputProps) {
   const router = useRouter();
   const [comment, setComment] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { setSuccessMessage } = useNotifySuccess();
 
   const handleAddComment = async (comment: string) => {
     try {
@@ -29,12 +31,12 @@ export default function CommentInput({ id }: CommentInputProps) {
         if (!res.ok) throw new Error(body.error);
         return body;
       });
-      router.refresh();
-      setTimeout(() => {
-        message.success("Comment added successfully");
+      startTransition(() => {
+        router.refresh();
         setComment("");
         setIsLoading(false);
-      }, 2000);
+        setSuccessMessage({ message: "Comment added successfully" });
+      });
     } catch (error) {
       message.error((error as Error).message);
       setIsLoading(false);

@@ -2,14 +2,16 @@
 
 import { Button, message, UploadFile } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
-import React, { useState } from "react";
+import React, { startTransition, useState } from "react";
 import Dragger from "antd/es/upload/Dragger";
 import { useRouter } from "next/navigation";
+import { useNotifySuccess } from "@/hooks/useNotifySuccess";
 
 export default function UploadPhoto() {
   const [isUpLoading, setIsUpLoading] = useState(false);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const router = useRouter();
+  const { setSuccessMessage } = useNotifySuccess();
 
   const handleChange = ({ file }: { file: UploadFile }) => {
     setFileList([file]);
@@ -29,12 +31,12 @@ export default function UploadPhoto() {
         if (!res.ok) throw new Error(body.error);
         return body;
       });
-      router.refresh();
-      setTimeout(() => {
+      startTransition(() => {
+        router.refresh();
         setFileList([]);
-        message.success("Photo uploaded successfully");
         setIsUpLoading(false);
-      }, 1000);
+        setSuccessMessage({ message: "Photo uploaded successfully" });
+      });
     } catch (error) {
       message.error((error as Error).message);
       setIsUpLoading(false);
