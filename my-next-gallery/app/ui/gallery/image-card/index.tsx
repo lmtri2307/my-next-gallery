@@ -16,9 +16,10 @@ export default function ImageCard({ id, url, comments }: ImageCardProps) {
       <div className="relative h-64 w-full">
         <Image
           src={url}
-          layout="fill"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           alt={`Image ${id}`}
-          objectFit="contain"
+          style={{ objectFit: "contain" }}
           className="rounded-lg"
         />
       </div>
