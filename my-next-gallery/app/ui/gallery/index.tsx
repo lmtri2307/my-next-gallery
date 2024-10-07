@@ -3,7 +3,8 @@ import ImageCard from "./image-card";
 import { Photo, PhotoService } from "@/app/libs/photo.service";
 
 const fetchPhotos = async (): Promise<Photo[]> => {
-  return await PhotoService.getAllPhotos();
+  const photos = await PhotoService.getAllPhotos();
+  return photos.sort((a, b) => b.id - a.id);
 };
 
 export default async function Gallery() {
